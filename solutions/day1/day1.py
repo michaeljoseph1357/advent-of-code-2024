@@ -1,19 +1,28 @@
+from collections import Counter
+
 def calculate_total_distance(left_list, right_list):
-    # Sort both lists
-    print("\nDEBUG: Sorting the lists...")
+    # Part 1: Sort and calculate the sum of absolute differences
     left_sorted = sorted(left_list)
     right_sorted = sorted(right_list)
-    print(f"DEBUG: Sorted left list: {left_sorted[:10]}... (showing first 10)")
-    print(f"DEBUG: Sorted right list: {right_sorted[:10]}... (showing first 10)")
-    
-    # Calculate the sum of absolute differences
-    print("\nDEBUG: Calculating absolute differences...")
     differences = [abs(l - r) for l, r in zip(left_sorted, right_sorted)]
-    print(f"DEBUG: First 10 differences: {differences[:10]} (showing first 10)")
-    
     total_distance = sum(differences)
-    print(f"DEBUG: Total distance: {total_distance}")
     return total_distance
+
+def calculate_similarity_score(left_list, right_list):
+    # Part 2: Calculate similarity score
+    print("\nDEBUG: Calculating similarity score...")
+    right_count = Counter(right_list)  # Count occurrences in the right list
+    print(f"DEBUG: Right list counts: {dict(list(right_count.items())[:10])}... (showing first 10)")
+    
+    similarity_score = 0
+    for number in left_list:
+        count = right_count[number]
+        score = number * count
+        similarity_score += score
+        print(f"DEBUG: Number: {number}, Count in Right: {count}, Partial Score: {score}")
+    
+    print(f"DEBUG: Final similarity score: {similarity_score}")
+    return similarity_score
 
 if __name__ == "__main__":
     # Define the relative path to the input file
@@ -42,6 +51,10 @@ if __name__ == "__main__":
     print(f"DEBUG: First 10 entries in left list: {left_list[:10]}")
     print(f"DEBUG: First 10 entries in right list: {right_list[:10]}")
 
-    # Calculate total distance
-    result = calculate_total_distance(left_list, right_list)
-    print(f"\nFinal Result: Total distance: {result}")
+    # Part 1: Calculate total distance
+    part1_result = calculate_total_distance(left_list, right_list)
+    print(f"\nPart 1 Result: Total distance: {part1_result}")
+
+    # Part 2: Calculate similarity score
+    part2_result = calculate_similarity_score(left_list, right_list)
+    print(f"\nPart 2 Result: Similarity score: {part2_result}")
